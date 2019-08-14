@@ -7,7 +7,7 @@ iwaves=load('mat\puv_proc_FI_iwaves.mat'); %processed incident wave filtered dat
 
 %start loop to find psi for each burst
 for ii=1:iwaves.n
-    [psid(ii),wdir(ii),cdir(ii)]=findpsi(iwaves.UBS(ii).maj_az, nofilt.UBS(ii).umean, nofilt.UBS(ii).vmean);
+    [phid(ii),wdir(ii),cdir(ii)]=findphi(iwaves.UBS(ii).maj_az, nofilt.UBS(ii).umean, nofilt.UBS(ii).vmean);
 end
 
-save('mat\9917adv_psi.mat','psid','wdir','cdir')
+save('mat\9917adv_phi.mat','phid','wdir','cdir')

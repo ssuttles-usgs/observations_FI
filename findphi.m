@@ -1,5 +1,5 @@
-function [psid,wdir,cdir]=findpsi(wdir,umean,vmean)
-%function psid=findpsi(wdir,umean,vmean)
+function [phid,wdir,cdir]=findphi(wdir,umean,vmean)
+%function phid=findphi(wdir,umean,vmean)
 %m-fcn to find angle between mean currents and wave propogation direction
 %
 %INPUT:
@@ -8,14 +8,14 @@ function [psid,wdir,cdir]=findpsi(wdir,umean,vmean)
 %vmean = mean current in northerly direction
 %
 %OUTPUT:
-%psid= angle between mean currents and wave propogation direction in degrees.
+%phid= angle between mean currents and wave propogation direction in degrees.
 
-[s,cdir]=pcoord(umean,vmean)
+[s,cdir]=pcoord(umean,vmean);
 
-d=cdir-(wdir-90)
-[umeanr,vmeanr]=xycoord(s,d)
-psi=findang([umeanr,vmeanr], [1,0]); %rads
-psid=psi*180/pi %deg
+d=cdir-(wdir-90);
+[umeanr,vmeanr]=xycoord(s,d);
+phi=findang([umeanr,vmeanr], [1,0]); %rads
+phid=phi*180/pi %deg
 end
 
 function theta = findang(v1,v2 )
