@@ -1,5 +1,4 @@
-function [Tc, Tt] =current_timeperiod(unet, Ang, ...
-                                  umax, umin, RR_cmg, DTc_cmg, DTt_cmg, T)
+function [Tc, Tt] =current_timeperiod(unet, Ang, umax, umin, RR_cmg, DTc_cmg, DTt_cmg, T)
  %
  % Modify the crest and trough time periods based on current velocity
  % This function was developed by Chris Sherwood and Tarandeep Kalra

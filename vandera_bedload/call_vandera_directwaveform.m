@@ -1,4 +1,5 @@
-clear all ; close all ; clc; 
+clear all ; 
+%close all ; clc; 
 % This is based on the prototype code intended for ROMS, as of
 % April 15, 2019
 % code to call vandera bedload routines for a time-series 
@@ -22,7 +23,7 @@ delta=0.2;
 nt1=1; nt2= 2044;
 %  
 % UISNG the ADV data only 
-load('/media/taran/DATADRIVE2/Obs_data/matfiles/skewness_steve.mat','Hrmsu','depth')
+load('..\mat\taran\skewness_steve.mat','Hrmsu','depth')
 h=depth; 
 
 waveavgd_stress_term=1; 

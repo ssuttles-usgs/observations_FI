@@ -1,6 +1,6 @@
 function [bedld_x, bedld_y, Ur, RR, beta]=vandera_function_obs(time, Hs, Td, depth, d50, d90, .....
                                                  umag_curr, phi_curwave, uhat, .....
-                                                 Zref, delta, waveavgd_stress_term, surface_wave);					                      
+                                                 Zref, delta, waveavgd_stress_term, surface_wave,current_time);					                      
 
 %Summary of this function goes here
 %   Detailed explanation goes here
@@ -62,9 +62,9 @@ uhat_t=umin;
 uc_r=0.5*sqrt(2.0)*uhat_c;
 ut_r=0.5*sqrt(2.0)*uhat_t;
 %
-[T_c, T_t, T_cu, T_tu, eta, udelta, alpha, ksw, tau_wRe]=..... 
-                         full_wave_cycle_stress_factors(d50, d90, osmgd, .....
-                             Td, depth, T_c, T_t, T_cu, T_tu, RR, ......
+[T_c, T_t, T_cu, T_tu, eta, udelta, alpha, ksw, tau_wRe]=... 
+                         full_wave_cycle_stress_factors(d50, d90, osmgd, ...
+                             Td, depth, T_c, T_t, T_cu, T_tu, RR, ...
                      umag_curr, phi_curwave, Zref, delta, umax, umin, uhat, ahat);   
 %
 %-----------------------------------------------------------------------
@@ -73,8 +73,8 @@ ut_r=0.5*sqrt(2.0)*uhat_t;
 %-----------------------------------------------------------------------
 %
 wavecycle=1.0;                     
-[dsf_c, theta_cx, theta_cy, mag_theta_c]=half_wave_cycle_stress_factors(T_cu, T_c,......
-                   uc_r, uhat_c, udelta, phi_curwave, ..........
+[dsf_c, theta_cx, theta_cy, mag_theta_c]=half_wave_cycle_stress_factors(T_cu, T_c,...
+                   uc_r, uhat_c, udelta, phi_curwave, ...
                    alpha, fd, ahat, ksw, tau_wRe);
 %
 %-----------------------------------------------------------------------
@@ -83,8 +83,8 @@ wavecycle=1.0;
 %-----------------------------------------------------------------------
 %
 wavecycle=-1.0;
-[dsf_t, theta_tx, theta_ty, mag_theta_t]=half_wave_cycle_stress_factors(T_tu, T_t,......
-                           ut_r, uhat_t, udelta, phi_curwave,....
+[dsf_t, theta_tx, theta_ty, mag_theta_t]=half_wave_cycle_stress_factors(T_tu, T_t,...
+                           ut_r, uhat_t, udelta, phi_curwave,...
                            alpha, fd, ahat, ksw, tau_wRe);
 %%
 %-----------------------------------------------------------------------
@@ -358,8 +358,10 @@ end
 %
 % Calculate the time period based on udelta     
 % 
-if(current_timeperiod==1)
-  [T_c, T_t]=current_timeperiod(udelta, phi_curwave, umax, umin, RR, T_c, T_t, Td);
+if(current_time==1)
+    if ~isnan(T_c) & ~isnan(T_t)
+     [T_c, T_t]=current_timeperiod(udelta, phi_curwave, umax, umin, RR, T_c, T_t, Td);
+    end
 end 
 % Calculate the effect of surface waves 
 %
