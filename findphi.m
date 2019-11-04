@@ -12,8 +12,8 @@ function [phid,wdir,cdir]=findphi(wdir,umean,vmean)
 
 [s,cdir]=pcoord(umean,vmean);
 
-d=cdir-(wdir-90);
-[umeanr,vmeanr]=xycoord(s,d);
+d=cdir-(wdir-90)
+[umeanr,vmeanr]=xycoord(s,d)
 phi=findang([umeanr,vmeanr], [1,0]); %rads
 phid=phi*180/pi %deg
 end

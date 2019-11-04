@@ -1,7 +1,7 @@
 %% puv_proc_FI - Process ADV records from Fire Island ADV
 % based on puv_proc_MVCO2011.m version of Feb 13, 2009
 % last revised 5/1/2019
-clear all ; close all ; clc ; 
+%clear all ; close all ; clc ; 
 
 kN1 = 30*0.018e-2 % roughness to be used on GM model
 kN2 = 30*0.4e-2
@@ -37,7 +37,7 @@ dn = dn(gb);
 brange = brange(gb); % Height of ADV transducer above boundary
 zoff = ncreadatt(advbfn,'/','ADVProbeSamplingVolumeOffset')/100.
 zr_median = nanmedian(brange)-zoff % this is the median ADV sample elevation
-zr = brange-zoff; % time series of ADV sample locations
+zr = brange-zoff; % time series of ADV sample locationszr
 
 % zr has some pretty low values, indicating that measurements were being
 % made 2 cmab. We need to check this and think about it.
@@ -46,9 +46,11 @@ z_init = ncreadatt(advbfn,'u_1205','initial_sensor_height')
 
 ap = 10.13 % std atmos. pressure (or a time series from nearby) [dBar]
 p_z = ncreadatt(advbfn,'P_4022','initial_sensor_height');
-pdelz = p_z-z_init; % elevation diff. between velocity and pressure
+%pdelz = p_z-z_init; % elevation diff. between velocity and pressure
+pdelz = p_z-(z_init-zoff); % elevation diff. between velocity and pressure- NEED to include zoff to get distance between velocity and pressure measuremens
+%zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
 zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
-depth = zr+pdelz+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
+depth = zp+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
 depth(depth>1e30)=NaN; %convert fill_values to NaNs
 fs = ncreadatt(advbfn,'/','ADVDeploymentSetupSampleRate')
 nsamp = ncreadatt(advbfn,'/','ADVDeploymentSetupSamplesPerBurst')

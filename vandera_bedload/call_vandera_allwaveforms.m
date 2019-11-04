@@ -17,9 +17,9 @@ delta=0.2;
 % check Steve's wave form
 %load('/media/taran/DATADRIVE2/Obs_data/matfiles/9917adv_wfr.mat')
 
-load('/media/taran/DATADRIVE2/Obs_data/matfiles/matfiles_Steve/9917adv_waveforms.mat'); 
+load('..\mat\9917adv_waveforms.mat'); 
 % Use the detph from adv generated data 
-load('/media/taran/DATADRIVE2/Obs_data/matfiles/skewness_steve.mat','Hrmsu','depth')
+load('..\mat\skewness_steve.mat','Hrmsu','depth')
 h=depth; 
 
 %wfr=[b(1).wf(1)]
@@ -43,10 +43,9 @@ for j=1:s2
    h_1d(i+it)=h(j);    % Convert the dimensions of depth to what is needed ! 
    uhat(i+it)=0.5*(umax(i+it)-umin(i+it)) ;
   end
-  it=s1+it ;  
-end
-
- 
+  %it=s1+it ;  
+  %get avg bedload for ea burst
+  
 
 % Question- Would need to use peak wave period and not bottom wave period
 waveavgd_stress_term=1; 
@@ -67,7 +66,9 @@ for i=1:length(uhat)
                                                   T_c(i), T_t(i), T_cu(i), T_tu(i), ............
  						                          Zref, delta, waveavgd_stress_term, ......
                                                   current_timeperiod, surface_wave); 
- emnd 
+ end 
 end  
-save('/media/taran/DATADRIVE2/Obs_data/matfiles/vandera_bedld_allwaveforms.mat','bedldx_allwaveform','R','Beta','Ur')
+
+%
+save('..\mat\vandera_bedld_allwaveforms.mat','bedldx_allwaveform','R','Beta','Ur')
   

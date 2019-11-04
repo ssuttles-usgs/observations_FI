@@ -36,7 +36,7 @@ load('..\mat\taran\vspec_uhat_tr.mat','uhat_wh','Tr_wh')
 % Question- Would need to use peak wave period and not bottom wave period
 waveavgd_stress_term=1; 
 surface_wave=1;
-current_time=1;
+current_time=0;
 
 % NOTE THAT I AM USING TBOT AND NOT PEAK WAVE PERIOD 
 % 

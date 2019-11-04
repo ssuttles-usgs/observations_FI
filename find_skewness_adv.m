@@ -49,9 +49,9 @@ z_init = ncreadatt(advbfn,'u_1205','initial_sensor_height')
 
 ap = 10.13 % std atmos. pressure (or a time series from nearby) [dBar]
 p_z = ncreadatt(advbfn,'P_4022','initial_sensor_height');
-pdelz = p_z-z_init; % elevation diff. between velocity and pressure
+pdelz = p_z-(z_init-zoff); % elevation diff. between velocity and pressure
 zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
-depth = zr+pdelz+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
+depth = zp+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
 depth(depth>1e30)=NaN; %convert fill_values to NaNs
 fs = ncreadatt(advbfn,'/','ADVDeploymentSetupSampleRate')
 nsamp = ncreadatt(advbfn,'/','ADVDeploymentSetupSamplesPerBurst')
@@ -59,17 +59,17 @@ nominal_depth = ncreadatt(advbfn,'/','WATER_DEPTH') % nominal
  
 %% process bursts with no QA/QC
 %for = 1:length(dn)
-<<<<<<< HEAD
+%<<<<<<< HEAD
 nt1=1; nt2=2044; 
 
-isave=0; 
-=======
-nt1=140; nt2=180; 
+%isave=0; 
+%=======
+%nt1=140; nt2=180; 
 %count=1; 
 %nt2=nt1 ; 
 %nt1=1;  nt2=2087; 
 isave=1; 
->>>>>>> steve
+%>>>>>>> steve
 
 % set the time period in seconds for excluding infragravity wave band
 t_up=20; t_low=4 ;

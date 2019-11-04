@@ -22,11 +22,11 @@ delta=0.2;
 nt1=1; nt2= 2044;
 
 % LOAD the observational data from workhorse from Fire Island 
-url='/media/taran/DATADRIVE2/Obs_data/data_netcdf/9921whp-cal.nc'
- netcdf_load(url)
+url='C:\Users\ssuttles\data\FireIsland\analysis\Taran\9921whp-cal.nc'
+ ncload(url)
 % Hs(:)=squeeze(wh_4061(1,1,:));
 % Td(:)=squeeze(wp_peak(1,1,:));
-h(:)=squeeze(hght_18(1,1,:)); % extract depth; 
+h(:)=squeeze(hght_18); % extract depth; 
 % 
 %  % h=depth; % Depth from ADV  
 % % %ntime=end 
@@ -48,7 +48,7 @@ current_timeperiod=0;
 
 % Read in Steve's waveform to get umax, umin, T_c, T_t....
 %
-load('/media/taran/DATADRIVE2/Obs_data/matfiles/matfiles_Steve/9917adv_wfr.mat')
+load('..\mat\9917adv_wfr.mat')
 % AVERAGED WAVEFORM 
 umax=[wfr.umax] ; 
 umin=[wfr.umin] ;
@@ -75,6 +75,7 @@ uhat=[wfr.Uw] ;% Multiplying this by 2 led to the old plot of bedload
                          current_timeperiod, surface_wave);
     end
  end
- plot(cumtrapz(bedldx1)*3600)
+ 
+ %plot(cumsum(bedldx1*3600))
 % load('/media/taran/DATADRIVE2/Obs_data/matfiles/vandera_bedld_directwaveform.mat',....
 %                                                         'bedldx','R','Beta','Ur')
