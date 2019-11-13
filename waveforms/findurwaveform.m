@@ -88,6 +88,8 @@ try
         wf(cnt).At=A(i+1);
         wf(cnt).Tcu=wf(cnt).t(wf(cnt).ub==wf(cnt).umax);
         wf(cnt).Ttu=wf(cnt).t(wf(cnt).ub==wf(cnt).umin)-wf(cnt).Tc;
+        wf(cnt).R=wf(cnt).umax/(wf(cnt).umax-wf(cnt).umin);
+        wf(cnt).alpha=2*wf(cnt).Tcu/wf(cnt).T;
 
     %     plot(wf(cnt).t,wf(cnt).s)
     %     set(gca,'xlim',xlim)
@@ -110,6 +112,8 @@ catch
         wf.At=NaN;
         wf.Tcu=NaN;
         wf.Ttu=NaN;
+        wf.R=NaN;
+        wf.alpha=NaN;
 end
 
 return

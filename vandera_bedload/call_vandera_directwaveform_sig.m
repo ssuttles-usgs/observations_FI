@@ -22,8 +22,10 @@ delta=0.2;
 nt1=1; nt2= 2044;
 %  
 % UISNG the ADV data only 
-load('..\mat\skewness_steve.mat','Hrmsu','depth')
-h=depth; %need to add sensor ht
+load('..\mat\skewness_steve_depc.mat','Hrmsu','depth')
+h=depth;%corrected depth now
+% load('..\depth\9917advs_depth_corrected.mat','depth_corrected')
+% h=depth_corrected; %need to add sensor ht
 
 waveavgd_stress_term=1; 
 surface_wave=0;  

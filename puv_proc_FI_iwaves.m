@@ -35,26 +35,50 @@ gb = (gb_first:gb_last)';
 
 dn = dn(gb);
 brange = brange(gb); % Height of ADV transducer above boundary
-zoff = ncreadatt(advbfn,'/','ADVProbeSamplingVolumeOffset')/100.
-zr_median = nanmedian(brange)-zoff % this is the median ADV sample elevation
-zr = brange-zoff; % time series of ADV sample locationszr
 
-% zr has some pretty low values, indicating that measurements were being
-% made 2 cmab. We need to check this and think about it.
+%% use corrected depth
 
-z_init = ncreadatt(advbfn,'u_1205','initial_sensor_height')
+%import corrected depth from ADV 9917 extrenal pressure sensor
+depc=load('mat\9917advs_depth_corrected.mat');
+depth=depc.depth_corrected;
 
-ap = 10.13 % std atmos. pressure (or a time series from nearby) [dBar]
-p_z = ncreadatt(advbfn,'P_4022','initial_sensor_height');
-%pdelz = p_z-z_init; % elevation diff. between velocity and pressure
-pdelz = p_z-(z_init-zoff); % elevation diff. between velocity and pressure- NEED to include zoff to get distance between velocity and pressure measuremens
-%zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
-zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
-depth = zp+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
-depth(depth>1e30)=NaN; %convert fill_values to NaNs
+    brange = brange(gb); % Height of ADV transducer above boundary
+    %interpolate bad values of brange
+    brangei=interp1(dn(brange>0),brange(brange>0),dn);
+    
+    %find all of the offsets  
+    zoff = ncreadatt(advbfn,'/','ADVProbeSamplingVolumeOffset')/100.
+    zr = brangei-zoff; % time series of ADV sample locations
+    z_init = ncreadatt(advsfn,'u_1205','initial_sensor_height')
+    p_z = ncreadatt(advsfn,'P_4023','initial_sensor_height');
+    pdelz = p_z-(z_init-zoff); % elevation diff. between velocity and pressure- NEED to include zoff to get distance between velocity and pressure measuremens
+    zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
+
+
 fs = ncreadatt(advbfn,'/','ADVDeploymentSetupSampleRate')
 nsamp = ncreadatt(advbfn,'/','ADVDeploymentSetupSamplesPerBurst')
 nominal_depth = ncreadatt(advbfn,'/','WATER_DEPTH') % nominal
+ 
+% zoff = ncreadatt(advbfn,'/','ADVProbeSamplingVolumeOffset')/100.
+% zr_median = nanmedian(brange)-zoff % this is the median ADV sample elevation
+% zr = brange-zoff; % time series of ADV sample locationszr
+% 
+% % zr has some pretty low values, indicating that measurements were being
+% % made 2 cmab. We need to check this and think about it.
+% 
+% z_init = ncreadatt(advbfn,'u_1205','initial_sensor_height')
+% 
+% ap = 10.13 % std atmos. pressure (or a time series from nearby) [dBar]
+% p_z = ncreadatt(advbfn,'P_4022','initial_sensor_height');
+% %pdelz = p_z-z_init; % elevation diff. between velocity and pressure
+% pdelz = p_z-(z_init-zoff); % elevation diff. between velocity and pressure- NEED to include zoff to get distance between velocity and pressure measuremens
+% %zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
+% zp = zr+pdelz; % elevation of pressure measurements [m] accounting for variable brange
+% depth = zp+(P_4023(gb)*0.01-ap); % time series of depth [decibars ~= meters]
+% depth(depth>1e30)=NaN; %convert fill_values to NaNs
+% fs = ncreadatt(advbfn,'/','ADVDeploymentSetupSampleRate')
+% nsamp = ncreadatt(advbfn,'/','ADVDeploymentSetupSamplesPerBurst')
+% nominal_depth = ncreadatt(advbfn,'/','WATER_DEPTH') % nominal
 
 %% overview plot
 %figure(1);clf
@@ -102,8 +126,9 @@ for n = 1:length(dn)
       c2 = ncread(advbfn,'cor2_1286',[1 n],[Inf 1]);
       c3 = ncread(advbfn,'cor3_1287',[1 n],[Inf 1]);
       
-      %u=detrend(u);
-      %v=detrend(v); 
+      u=detrend(u);
+      v=detrend(v);
+      p=detrend(p);
       % TODO - QA/QC, replace sketchy values here
       
       % TODO - Do we want to do any filtering here?
@@ -217,7 +242,7 @@ Au = rp.Au;
 r = rp.r;
 sk = UBS.ur_sk;
 
-save mat\puv_proc_FI_iwaves
+save mat\puv_proc_FI_iwaves_depc
 % 
 % figure(5); clf
 % subplot(411)

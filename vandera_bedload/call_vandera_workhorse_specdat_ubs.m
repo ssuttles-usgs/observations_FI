@@ -28,11 +28,15 @@ ncload(url)
 Hs(:)=squeeze(wh_4061);
 %Td(:)=squeeze(wp_peak(1,1,:));
 instht=ncreadatt(url,'hght_18','initial_sensor_height')
-h(:)=squeeze(hght_18)+instht; % extract depth; 
+%h(:)=squeeze(hght_18)+instht; % extract depth; 
+
+%import corrected depth from ADV 9917 extrenal pressure sensor
+depc=load('..\mat\9917advs_depth_corrected.mat');
+h(:)=depc.depth_corrected;
 
 % load vspec data of uhat and Tr 
-load('..\mat\taran\vspec_uhat_tr.mat','uhat_wh','Tr_wh')
-
+load('..\mat\vspec_uhat_tr_ses.mat','uhat_wh','Tr_wh')
+ubs_wh=uhat_wh.*sqrt(2);
 % Question- Would need to use peak wave period and not bottom wave period
 waveavgd_stress_term=1; 
 surface_wave=1;
@@ -42,11 +46,11 @@ current_time=0;
 % 
 %t_end=2000 ;
  for i=nt1:nt2
-   [bedldx_wh_vspec(i), bedldy(i), Ur(i), R(i), Beta(i)]=vandera_function_workhorse(i, Hs(i), Tr_wh(i), h(i), d50, d90, .....
-                                                  umag_curr, phi_curwave, uhat_wh(i), .....
+   [bedldx_wh_vspec_ubs(i), bedldy(i), Ur(i), R(i), Beta(i)]=vandera_function_workhorse(i, Hs(i), Tr_wh(i), h(i), d50, d90, .....
+                                                  umag_curr, phi_curwave, ubs_wh(i), .....
                                                   Zref, delta, waveavgd_stress_term, surface_wave,current_time);
  end 
- save('..\mat\vandera_bedld_workhorse_ubspecdat.mat','bedldx_wh_vspec','R','Beta','Ur')
+ save('..\mat\vandera_bedld_workhorse_ubspecdat_ubs.mat','bedldx_wh_vspec_ubs','R','Beta','Ur')
  %plot(bedldx_wh_vspec)
  %  figure(1)
 % plot(uhat(1:t_end),bedldx(1:t_end),'*--')

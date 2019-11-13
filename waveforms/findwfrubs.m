@@ -1,4 +1,4 @@
-function wfr=findwfrsig(wf)
+function wfr=findwfrubs(wf,ubr,Tr)
 
 % for i=1:length(wf)
 % ubh(i)=wf(i).umax-wf(i).umin;
@@ -18,7 +18,7 @@ uhat(i)=NaN;
 end
 
 T(i)=wf(i).T;
-Tr(i)=wf(i).T/T(i);    
+%Tr(i)=wf(i).T/T(i);    
 Tcr(i)=wf(i).Tc/T(i);
 Ttr(i)=wf(i).Tt/T(i);
 Acr(i)=wf(i).Ac/(uhat(i)*T(i));
@@ -31,19 +31,17 @@ end
 
 wfr.dn=wf(1).dn(1);
 
-%find significant uhat and T using mean of highest 1/3 of uhat indivdual waveforms
-[Usort,I]=sort(uhat,'descend');
-n=round(length(uhat)*1/3);
-wfr.Uw=mean(Uw(I(1:n)));
-wfr.uhat=mean(uhat(I(1:n)));
-wfr.T=mean(T(I(1:n)));
-wfr.umax=mean(umaxr(I(1:n)))*wfr.uhat;
-wfr.umin=mean(uminr(I(1:n)))*wfr.uhat;
-wfr.Tc=mean(Tcr(I(1:n)))*wfr.T;
-wfr.Tt=mean(Ttr(I(1:n)))*wfr.T;
-wfr.Tcu=mean(Tcur(I(1:n)))*wfr.T;
-wfr.Ttu=mean(Ttur(I(1:n)))*wfr.T;
-wfr.Ac=mean(Acr(I(1:n)))*(wfr.uhat*wfr.T);
-wfr.At=mean(Atr(I(1:n)))*(wfr.uhat*wfr.T);
+%Use ubr and Tr from puvq results for ea burst
+wfr.Uw=mean(Uw);
+wfr.ubs=ubr.*sqrt(2);
+wfr.Tr=Tr;
+wfr.umax=mean(umaxr)*wfr.ubs;
+wfr.umin=mean(uminr)*wfr.ubs;
+wfr.Tc=mean(Tcr)*wfr.Tr;
+wfr.Tt=mean(Ttr)*wfr.Tr;
+wfr.Tcu=mean(Tcur)*wfr.Tr;
+wfr.Ttu=mean(Ttur)*wfr.Tr;
+wfr.Ac=mean(Acr)*(wfr.ubs*wfr.Tr);
+wfr.At=mean(Atr)*(wfr.ubs*wfr.Tr);
 wfr.R=wfr.umax/(wfr.umax-wfr.umin);
-wfr.alpha=2*wfr.Tcu/wfr.T;
+wfr.alpha=2*wfr.Tcu/wfr.Tr;

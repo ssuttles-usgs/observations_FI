@@ -23,7 +23,9 @@ nt1=1; nt2= 2044;
 %  
 % UISNG the ADV data only 
 load('..\mat\skewness_steve_depc.mat','Hrmsu','depth')
-h=depth; %corrected depth now
+h=depth;%corrected depth now
+% load('..\depth\9917advs_depth_corrected.mat','depth_corrected')
+% h=depth_corrected; %need to add sensor ht
 
 waveavgd_stress_term=1; 
 surface_wave=0;  
@@ -31,7 +33,7 @@ current_timeperiod=0;
 
 % Read in Steve's waveform to get umax, umin, T_c, T_t....
 %
-load('..\waveforms\mat\9917adv_wfr_uhat.mat')
+load('..\waveforms\mat\9917adv_wfr_ubr.mat')
 % AVERAGED WAVEFORM 
 umax=[wfr.umax]; 
 umin=[wfr.umin];
@@ -39,9 +41,9 @@ T_c=[wfr.Tc];
 T_t=[wfr.Tt];
 T_cu=[wfr.Tcu];
 T_tu=[wfr.Ttu] ; 
-T=[wfr.T] ; 
+T=[wfr.Tr] ; 
 %R=[wfr.R] ;
-uhat=[wfr.Uw];% Multiplying this by 2 led to the old plot of bedload
+uhat=[wfr.ubr];%
 %  
  for ii=1:nt2
      Hs(ii)=0;  %This is a redundant input to the code now that we have the waveform
@@ -62,8 +64,9 @@ uhat=[wfr.Uw];% Multiplying this by 2 led to the old plot of bedload
           Beta(ii)=NaN;
       end 
  end
+ bedldx_wfr_ubr=bedldx_wfr;
  
- save('..\mat\vandera_bedld_directwaveform.mat','bedldx_wfr','R','Beta','Ur')
+ save('..\mat\vandera_bedld_directwaveform_ubr.mat','bedldx_wfr_ubr','R','Beta','Ur')
  %plot(cumtrapz(bedldx)*3600)
  %load('/media/taran/DATADRIVE2/Obs_data/matfiles/vandera_bedld_directwaveform.mat',....
  %                                                        'bedldx','R','Beta','Ur')

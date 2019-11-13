@@ -42,6 +42,23 @@ load('..\mat\vandera_bedld_directwaveform_sig.mat','bedldx_wfr_sig','R','Beta','
 dn_sig=dn(~isnan(bedldx_wfr_sig));
 cumbedld_wfr_sig=cumtrapz(dn_sig,bedldx_wfr_sig(~isnan(bedldx_wfr_sig))).*86400;
 
+%represntative direct waveform using ubr and Tr from puvq
+load('..\mat\vandera_bedld_directwaveform_ubr.mat','bedldx_wfr_ubr','R','Beta','Ur');
+dn_ubr=dn(~isnan(bedldx_wfr_ubr));
+cumbedld_wfr_ubr=cumtrapz(dn_ubr,bedldx_wfr_ubr(~isnan(bedldx_wfr_ubr))).*86400;
+
+% VANDERA from workhorse using all the empircal waveform 
+load('..\mat\vandera_bedld_workhorse_ubspecdat_ses.mat','bedldx_wh_vspec','R','Beta','Ur')
+bedld_empirical_vand_ses=bedldx_wh_vspec; 
+dn_empirical_vand_ses=dn(~isnan(bedld_empirical_vand_ses));
+cumbedld_empirical_vand_ses=cumtrapz(dn_empirical_vand_ses,bedld_empirical_vand_ses(~isnan(bedld_empirical_vand_ses))).*86400;  
+
+
+%%Significant direct waveform
+% load('..\mat\vandera_bedld_directwaveform_sig_12m.mat','bedldx_wfr_sig','R','Beta','Ur');
+% dn_sig_12m=dn(~isnan(bedldx_wfr_sig));
+% cumbedld_wfr_sig_12m=cumtrapz(dn_sig_12m,bedldx_wfr_sig(~isnan(bedldx_wfr_sig))).*86400;
+
 
 % 
 figure
@@ -53,14 +70,19 @@ plot(dn_directwaveform,cumbedld_directwaveform,'k');
 plot(dn_allwaveform,cumbedld_allwaveform,'g');
 plot(dn_mpm,cumbedld_mpm,'b');
 plot(dn_sig,cumbedld_wfr_sig,'--k')
+plot(dn_ubr,cumbedld_wfr_ubr,'m')
+plot(dn_empirical_vand_ses,cumbedld_empirical_vand_ses,'--r') 
+%plot(dn_sig_12m,cumbedld_wfr_sig_12m,'c')
+
 
 title('Cummulative Bedload comparison from Fire Island 2014 site 3 using 9917adv and 9921wh data','fontweight','bold') 
 ylabel('Cummulative bedload transport')
 datetick('x',2)
 
-legend({'empirical' 'waveform averaged' 'all waveforms direct' 'mpm ss' 'waveform sigificant'},'Location','Northwest')
+legend({'empirical' 'waveform averaged' 'all waveforms direct' 'mpm ss' 'waveform sigificant' 'ubr,Tr' 'empirical depth corrected'},'Location','Northwest')
 
-saveas(gcf,'bedload_compare_sig.png','png')
-save2pdf('bedload_compare_sig',gcf,300)
+
+saveas(gcf,'bedload_compare_ubr_ses.png','png')
+save2pdf('bedload_compare_ubr_ses',gcf,300)
 
 
