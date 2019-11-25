@@ -65,6 +65,10 @@ try
         wf(cnt).At=A(i+1);
         wf(cnt).Tcu=wf(cnt).t(wf(cnt).ub==wf(cnt).umax);
         wf(cnt).Ttu=wf(cnt).t(wf(cnt).ub==wf(cnt).umin)-wf(cnt).Tc;
+        wf(cnt).R=wf(cnt).umax/(wf(cnt).umax-wf(cnt).umin);
+        wf(cnt).alpha=2*wf(cnt).Tcu/wf(cnt).T;
+        wf(cnt).Su=mean(wf(cnt).ub.^3)/(std(wf(cnt).ub)).^3;
+
     %     plot(wf(cnt).t,wf(cnt).s)
     %     set(gca,'xlim',xlim)
     %     line(xlim, [0 0],'color',[0.5 0.5 0.5])
@@ -90,7 +94,7 @@ try
         wf(cnt).Ttu=wf(cnt).t(wf(cnt).ub==wf(cnt).umin)-wf(cnt).Tc;
         wf(cnt).R=wf(cnt).umax/(wf(cnt).umax-wf(cnt).umin);
         wf(cnt).alpha=2*wf(cnt).Tcu/wf(cnt).T;
-
+        wf(cnt).Su=mean(wf(cnt).ub.^3)/(std(wf(cnt).ub)).^3;
     %     plot(wf(cnt).t,wf(cnt).s)
     %     set(gca,'xlim',xlim)
     %     line(xlim, [0 0],'color',[0.5 0.5 0.5])
@@ -114,6 +118,7 @@ catch
         wf.Ttu=NaN;
         wf.R=NaN;
         wf.alpha=NaN;
+        wf.Su=NaN;
 end
 
 return
