@@ -164,7 +164,7 @@ plot(dn,R_directwaveform,'*k');
 plot(dn,R_allwaveform,'g');
 %plot(dn_mpm,bedld_mpm,'b');
 plot(dn,R_sig,'--k')
-plot(dn,R_ubr,'--m')
+plot(dn,R_ubr,'m')
 %plot(dn_empirical_vand_ses,cumbedld_empirical_vand_ses,'--r') 
 %plot(dn_sig_12m,cumbedld_wfr_sig_12m,'c')
 plot(dn,R_ubs,'--c')

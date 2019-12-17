@@ -1,4 +1,4 @@
-function [r, phi, omega, umin, umax]=wave_form_parameters(H_s,T,depth,Uw)
+ sqrtfunction [r, phi, omega, umin, umax]=wave_form_parameters(H_s,T,depth,Uw)
 %
 % 1. GET URSELL NUMBER 
 % H_s=sqrt(2.0)*H_rms
