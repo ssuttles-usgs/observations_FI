@@ -9,8 +9,8 @@ kN2 = 30*0.4e-2
 % advbfn = '9885advb-cal.nc'; % burstfile name
 % advsfn = '9885advs-cal.nc'; % statistics filename
 
-advbfn = fullfile('C:\Users\ssuttles\data\FireIsland\analysis\Taran\9917advb-cal.nc'); % burstfile name
-advsfn = fullfile('C:\Users\ssuttles\data\FireIsland\analysis\Taran\9917advs-cal.nc'); % statistics filename
+advbfn = fullfile('C:\Users\ssuttles\data\FireIsland_2014\analysis\Taran\9917advb-cal.nc'); % burstfile name
+advsfn = fullfile('C:\Users\ssuttles\data\FireIsland_2014\analysis\Taran\9917advs-cal.nc'); % statistics filename
 
 %advbfn = fullfile('/media/taran/DATADRIVE2/Obs_data/data_netcdf/9885advb-cal.nc');
 %advsfn = fullfile('/media/taran/DATADRIVE2/Obs_data/data_netcdf/9885advs-cal.nc'); 
@@ -105,7 +105,7 @@ nominal_depth = ncreadatt(advbfn,'/','WATER_DEPTH') % nominal
 %[sd1 az1 sd2 az2]=pcastats(u_1205,v_1206,25,1)
 
 %% process bursts with no QA/QC
-%n=100
+%n=1
 for n = 1:length(dn)
 %  nt1=680; nt2=730; 
 % count=1; 
